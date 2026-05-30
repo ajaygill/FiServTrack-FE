@@ -1,0 +1,18 @@
+<header><b>FiServTrack</b><span>{{fullName}}</span><button class="btn secondary" (click)="auth.logout()">Logout</button></header>
+<div class="shell">
+  <aside>
+    <div class="nav-section">Master Data</div>
+    <a routerLink="/masters/accounts" routerLinkActive="active">Accounts</a>
+    <a routerLink="/masters/currencies" routerLinkActive="active">Currencies</a>
+    <a routerLink="/masters/account-types" routerLinkActive="active">Account Types</a>
+    <a routerLink="/masters/payment-modes" routerLinkActive="active">Payment Modes</a>
+    <a routerLink="/masters/frequencies" routerLinkActive="active">Frequencies</a>
+    <a routerLink="/masters/loan-types" routerLinkActive="active">Loan Types</a>
+    <a routerLink="/masters/financial-years" routerLinkActive="active">Financial Years</a>
+    <div class="nav-section">Daily Jobs</div>
+    <a routerLink="/daily-jobs/payment" routerLinkActive="active">Add Payment</a>
+    <a routerLink="/daily-jobs/receipt" routerLinkActive="active">Receive Payment</a>
+  </aside>
+  <main><router-outlet /></main>
+</div>
+<footer>© FiServTrack</footer>

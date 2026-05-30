@@ -1,0 +1,1 @@
+<div class="login-wrap"><div class="card login-card"><h2>FiServTrack</h2><p>Money Manager Login</p><label>Username</label><input [(ngModel)]="userName"><label>Password</label><input type="password" [(ngModel)]="password"><button class="btn" (click)="login()" [disabled]="loading">{{loading?'Please wait...':'Login'}}</button><p class="error">{{error}}</p></div></div>
