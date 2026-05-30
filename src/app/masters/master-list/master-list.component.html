@@ -1,17 +1,15 @@
 <div class="page-shell">
   <div class="page-header">
-    <h2>Accounts</h2>
+    <h2>{{ config.title }}</h2>
     <div class="toolbar">
       <div class="search-box">
         <span class="search-icon">⌕</span>
         <input type="text" placeholder="Search..." [(ngModel)]="search" (ngModelChange)="onSearchChange()">
       </div>
       <select class="toolbar-select" [(ngModel)]="sortBy" (ngModelChange)="onFilterChange()">
-        <option value="name">Sort By Name</option>
-        <option value="type">Sort By Type</option>
-        <option value="opening">Sort By Opening Balance</option>
+        <option *ngFor="let opt of config.sortOptions" [value]="opt.value">{{ opt.label }}</option>
       </select>
-      <select class="toolbar-select" [(ngModel)]="statusFilter" (ngModelChange)="onFilterChange()">
+      <select *ngIf="hasStatus" class="toolbar-select" [(ngModel)]="statusFilter" (ngModelChange)="onFilterChange()">
         <option value="all">All Status</option>
         <option value="active">Active Only</option>
         <option value="inactive">Inactive Only</option>
@@ -25,39 +23,31 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Group</th>
-            <th>Type</th>
-            <th>Currency</th>
-            <th>Opening Balance</th>
-            <th>Status</th>
+            <th *ngFor="let col of config.columns">{{ col.label }}</th>
             <th class="actions-col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let a of pagedAccounts">
-            <td>{{ a.name }}</td>
-            <td>{{ a.group?.name || '—' }}</td>
-            <td>{{ a.accountType?.description || '—' }}</td>
-            <td>{{ a.currency?.code }}</td>
-            <td>{{ a.openingBalance | number:'1.2-2' }}</td>
-            <td>
-              <span class="status-badge" [class.active]="a.isActive" [class.inactive]="!a.isActive">
-                {{ a.isActive ? 'Active' : 'Inactive' }}
+          <tr *ngFor="let row of pagedItems">
+            <td *ngFor="let col of config.columns">
+              <span *ngIf="col.type === 'status'" class="status-badge" [class.active]="row.isActive" [class.inactive]="!row.isActive">
+                {{ row.isActive ? 'Active' : 'Inactive' }}
               </span>
+              <span *ngIf="col.type === 'date'">{{ cellValue(row, col) }}</span>
+              <span *ngIf="!col.type || col.type === 'text'">{{ cellValue(row, col) }}</span>
             </td>
             <td class="actions-col">
-              <button type="button" class="icon-btn" title="Edit" (click)="edit(a)">✎</button>
-              <button type="button" class="icon-btn danger" title="Delete" (click)="delete(a.id)">🗑</button>
+              <button type="button" class="icon-btn" title="Edit" (click)="edit(row)">✎</button>
+              <button type="button" class="icon-btn danger" title="Delete" (click)="delete(row.id)">🗑</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <p *ngIf="filteredAccounts.length === 0" class="empty">No accounts found.</p>
+      <p *ngIf="filteredItems.length === 0" class="empty">No {{ config.title.toLowerCase() }} found.</p>
     </div>
 
     <div class="table-footer">
-      <span>Showing {{ rangeStart }} to {{ rangeEnd }} of {{ filteredAccounts.length }} entries</span>
+      <span>Showing {{ rangeStart }} to {{ rangeEnd }} of {{ filteredItems.length }} entries</span>
       <div class="pagination">
         <button type="button" class="page-btn" (click)="goToPage(1)" [disabled]="currentPage === 1">«</button>
         <button type="button" class="page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>

@@ -2,8 +2,9 @@
 <p class="subtitle">Overview of accounts, cash flow, and recent activity</p>
 
 <div *ngIf="loading" class="card">Loading analytics...</div>
+<div *ngIf="!loading && error" class="card error">{{ error }}</div>
 
-<ng-container *ngIf="!loading">
+<ng-container *ngIf="!loading && !error">
   <div class="stats-grid">
     <div class="stat-card"><span>Total Accounts</span><strong>{{stats.accounts}}</strong></div>
     <div class="stat-card"><span>Active Accounts</span><strong>{{stats.activeAccounts}}</strong></div>

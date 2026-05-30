@@ -8,6 +8,15 @@
   <aside [class.collapsed]="sidebarCollapsed">
     <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
 
+    <button type="button" class="nav-group-toggle" (click)="toggleDailyJobs()">
+      <span>Daily Jobs</span>
+      <span class="chevron">{{ dailyJobsExpanded ? '▾' : '▸' }}</span>
+    </button>
+    <div class="nav-group" [class.hidden]="!dailyJobsExpanded">
+      <a routerLink="/daily-jobs/payment" routerLinkActive="active">Add Payment</a>
+      <a routerLink="/daily-jobs/receipt" routerLinkActive="active">Receive Payment</a>
+    </div>
+
     <button type="button" class="nav-group-toggle" (click)="toggleMaster()">
       <span>Master Data</span>
       <span class="chevron">{{ masterExpanded ? '▾' : '▸' }}</span>
@@ -20,15 +29,6 @@
       <a routerLink="/masters/frequencies" routerLinkActive="active">Frequencies</a>
       <a routerLink="/masters/loan-types" routerLinkActive="active">Loan Types</a>
       <a routerLink="/masters/financial-years" routerLinkActive="active">Financial Years</a>
-    </div>
-
-    <button type="button" class="nav-group-toggle" (click)="toggleDailyJobs()">
-      <span>Daily Jobs</span>
-      <span class="chevron">{{ dailyJobsExpanded ? '▾' : '▸' }}</span>
-    </button>
-    <div class="nav-group" [class.hidden]="!dailyJobsExpanded">
-      <a routerLink="/daily-jobs/payment" routerLinkActive="active">Add Payment</a>
-      <a routerLink="/daily-jobs/receipt" routerLinkActive="active">Receive Payment</a>
     </div>
   </aside>
   <main [class.expanded]="sidebarCollapsed"><router-outlet /></main>

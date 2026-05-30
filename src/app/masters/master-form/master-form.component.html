@@ -1,0 +1,51 @@
+<div class="page-shell">
+  <div class="page-header">
+    <h2>{{ isEdit ? 'Edit ' + config.singular : 'Add ' + config.singular }}</h2>
+    <a [routerLink]="['/' + config.routePath]" class="back-link">← Back to list</a>
+  </div>
+
+  <div class="card form-card">
+    <div class="form-grid">
+      <div *ngFor="let field of config.fields" class="form-field" [class.field-invalid]="fieldErrors[field.name]">
+        <ng-container [ngSwitch]="field.type">
+          <ng-container *ngSwitchCase="'checkbox'">
+            <div class="toggle-cell">
+              <label class="toggle-field">
+                <span class="toggle-label">{{ field.label }}</span>
+                <span class="toggle-control">
+                  <input type="checkbox" class="toggle-input" [(ngModel)]="form[field.name]" [name]="field.name">
+                  <span class="toggle-switch"></span>
+                </span>
+              </label>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'date'">
+            <label>{{ field.label }} <span *ngIf="field.required" class="required">*</span></label>
+            <input type="date" [(ngModel)]="form[field.name]" [name]="field.name" (ngModelChange)="clearFieldError(field.name)">
+            <p *ngIf="fieldErrors[field.name]" class="field-error">{{ fieldErrors[field.name] }}</p>
+          </ng-container>
+          <ng-container *ngSwitchCase="'select'">
+            <label>{{ field.label }} <span *ngIf="field.required" class="required">*</span></label>
+            <select [(ngModel)]="form[field.name]" [name]="field.name" (ngModelChange)="onSelectChange(field.name, $event)">
+              <option [ngValue]="null" [disabled]="field.required">{{ field.placeholder || ('Select ' + field.label) }}</option>
+              <option *ngFor="let opt of field.options" [ngValue]="opt.value">{{ opt.label }}</option>
+            </select>
+            <p *ngIf="fieldErrors[field.name]" class="field-error">{{ fieldErrors[field.name] }}</p>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <label>{{ field.label }} <span *ngIf="field.required" class="required">*</span></label>
+            <input [(ngModel)]="form[field.name]" [name]="field.name" (ngModelChange)="clearFieldError(field.name)">
+            <p *ngIf="fieldErrors[field.name]" class="field-error">{{ fieldErrors[field.name] }}</p>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <p *ngIf="saveError" class="error save-error">{{ saveError }}</p>
+
+    <div class="form-actions">
+      <button type="button" class="btn" (click)="save()">Save</button>
+      <button type="button" class="btn secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+</div>
