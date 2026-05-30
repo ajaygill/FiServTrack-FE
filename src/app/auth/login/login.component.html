@@ -1,1 +1,25 @@
-<div class="login-wrap"><div class="card login-card"><h2>FiServTrack</h2><p>Money Manager Login</p><label>Username</label><input [(ngModel)]="userName"><label>Password</label><input type="password" [(ngModel)]="password"><button class="btn" (click)="login()" [disabled]="loading">{{loading?'Please wait...':'Login'}}</button><p class="error">{{error}}</p></div></div>
+<div class="login-page">
+  <div class="login-panel">
+    <div class="brand">
+      <div class="logo">FT</div>
+      <div>
+        <h1>FiServTrack</h1>
+        <p>Personal finance and money manager</p>
+      </div>
+    </div>
+
+    <div class="card login-card">
+      <h2>Sign in</h2>
+      <p class="hint">Use your credentials to access the dashboard.</p>
+
+      <label for="userName">Username</label>
+      <input id="userName" [(ngModel)]="userName" autocomplete="username" (keyup.enter)="login()">
+
+      <label for="password">Password</label>
+      <input id="password" type="password" [(ngModel)]="password" autocomplete="current-password" (keyup.enter)="login()">
+
+      <button class="btn" (click)="login()" [disabled]="loading">{{ loading ? 'Signing in...' : 'Login' }}</button>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+  </div>
+</div>

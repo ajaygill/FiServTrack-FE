@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { TransactionFormComponent } from './daily-jobs/transaction-form/transaction-form.component';
 import { SimpleMasterListComponent } from './masters/simple-master-list/simple-master-list.component';
@@ -11,7 +12,8 @@ import { authGuard } from './core/guards/auth.guard';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: LayoutComponent, canActivate: [authGuard], children: [
-    { path: '', redirectTo: 'masters/accounts', pathMatch: 'full' },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent },
     { path: 'accounts', redirectTo: 'masters/accounts', pathMatch: 'full' },
     { path: 'masters', redirectTo: 'masters/accounts', pathMatch: 'full' },
     { path: 'masters/accounts', component: AccountListComponent },

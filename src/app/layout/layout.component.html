@@ -1,18 +1,36 @@
-<header><b>FiServTrack</b><span>{{fullName}}</span><button class="btn secondary" (click)="auth.logout()">Logout</button></header>
+<header>
+  <button type="button" class="menu-toggle" (click)="toggleSidebar()" [attr.aria-label]="sidebarCollapsed ? 'Expand menu' : 'Collapse menu'">☰</button>
+  <b>FiServTrack</b>
+  <span>{{fullName}}</span>
+  <button class="btn secondary" (click)="auth.logout()">Logout</button>
+</header>
 <div class="shell">
-  <aside>
-    <div class="nav-section">Master Data</div>
-    <a routerLink="/masters/accounts" routerLinkActive="active">Accounts</a>
-    <a routerLink="/masters/currencies" routerLinkActive="active">Currencies</a>
-    <a routerLink="/masters/account-types" routerLinkActive="active">Account Types</a>
-    <a routerLink="/masters/payment-modes" routerLinkActive="active">Payment Modes</a>
-    <a routerLink="/masters/frequencies" routerLinkActive="active">Frequencies</a>
-    <a routerLink="/masters/loan-types" routerLinkActive="active">Loan Types</a>
-    <a routerLink="/masters/financial-years" routerLinkActive="active">Financial Years</a>
-    <div class="nav-section">Daily Jobs</div>
-    <a routerLink="/daily-jobs/payment" routerLinkActive="active">Add Payment</a>
-    <a routerLink="/daily-jobs/receipt" routerLinkActive="active">Receive Payment</a>
+  <aside [class.collapsed]="sidebarCollapsed">
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+
+    <button type="button" class="nav-group-toggle" (click)="toggleMaster()">
+      <span>Master Data</span>
+      <span class="chevron">{{ masterExpanded ? '▾' : '▸' }}</span>
+    </button>
+    <div class="nav-group" [class.hidden]="!masterExpanded">
+      <a routerLink="/masters/accounts" routerLinkActive="active">Accounts</a>
+      <a routerLink="/masters/currencies" routerLinkActive="active">Currencies</a>
+      <a routerLink="/masters/account-types" routerLinkActive="active">Account Types</a>
+      <a routerLink="/masters/payment-modes" routerLinkActive="active">Payment Modes</a>
+      <a routerLink="/masters/frequencies" routerLinkActive="active">Frequencies</a>
+      <a routerLink="/masters/loan-types" routerLinkActive="active">Loan Types</a>
+      <a routerLink="/masters/financial-years" routerLinkActive="active">Financial Years</a>
+    </div>
+
+    <button type="button" class="nav-group-toggle" (click)="toggleDailyJobs()">
+      <span>Daily Jobs</span>
+      <span class="chevron">{{ dailyJobsExpanded ? '▾' : '▸' }}</span>
+    </button>
+    <div class="nav-group" [class.hidden]="!dailyJobsExpanded">
+      <a routerLink="/daily-jobs/payment" routerLinkActive="active">Add Payment</a>
+      <a routerLink="/daily-jobs/receipt" routerLinkActive="active">Receive Payment</a>
+    </div>
   </aside>
-  <main><router-outlet /></main>
+  <main [class.expanded]="sidebarCollapsed"><router-outlet /></main>
 </div>
 <footer>© FiServTrack</footer>
