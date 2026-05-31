@@ -12,7 +12,7 @@ export class MasterListComponent implements OnInit {
   search = '';
   sortBy = 'name';
   statusFilter = 'all';
-  pageSize = 7;
+  pageSize = 10;
   currentPage = 1;
 
   constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
@@ -72,10 +72,20 @@ export class MasterListComponent implements OnInit {
     return Math.min(this.currentPage * this.pageSize, this.filteredItems.length);
   }
 
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
   cellValue(row: any, col: MasterColumn) {
     if (col.type === 'enum' && col.enumLabels) {
-      const key = String(row[col.field] ?? '');
-      return col.enumLabels[key] ?? (key || '—');
+      const raw = row[col.field];
+      if (raw == null || raw === '') return '—';
+      const key = String(raw);
+      if (col.enumLabels[key]) return col.enumLabels[key];
+      const numeric = Number(raw);
+      const numericKeys = ['', 'Asset', 'Liability', 'Income', 'Expense'];
+      if (numeric >= 1 && numeric <= 4) return col.enumLabels[numericKeys[numeric]] ?? numericKeys[numeric];
+      return key;
     }
     return row[col.field] ?? '—';
   }

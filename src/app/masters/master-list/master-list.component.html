@@ -33,8 +33,7 @@
               <span *ngIf="col.type === 'status'" class="status-badge" [class.active]="row.isActive" [class.inactive]="!row.isActive">
                 {{ row.isActive ? 'Active' : 'Inactive' }}
               </span>
-              <span *ngIf="col.type === 'date'">{{ cellValue(row, col) }}</span>
-              <span *ngIf="!col.type || col.type === 'text'">{{ cellValue(row, col) }}</span>
+              <span *ngIf="col.type === 'date' || col.type === 'enum' || !col.type || col.type === 'text'">{{ cellValue(row, col) }}</span>
             </td>
             <td class="actions-col">
               <button type="button" class="icon-btn" title="Edit" (click)="edit(row)">✎</button>
@@ -49,11 +48,11 @@
     <div class="table-footer">
       <span>Showing {{ rangeStart }} to {{ rangeEnd }} of {{ filteredItems.length }} entries</span>
       <div class="pagination">
-        <button type="button" class="page-btn" (click)="goToPage(1)" [disabled]="currentPage === 1">«</button>
-        <button type="button" class="page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>
-        <button type="button" class="page-btn current">{{ currentPage }}</button>
-        <button type="button" class="page-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">›</button>
-        <button type="button" class="page-btn" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">»</button>
+        <button type="button" class="page-btn" (click)="goToPage(1)" [disabled]="currentPage === 1" title="First page">«</button>
+        <button type="button" class="page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" title="Previous page">‹</button>
+        <button *ngFor="let page of pageNumbers" type="button" class="page-btn" [class.current]="page === currentPage" (click)="goToPage(page)">{{ page }}</button>
+        <button type="button" class="page-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" title="Next page">›</button>
+        <button type="button" class="page-btn" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" title="Last page">»</button>
       </div>
     </div>
   </div>

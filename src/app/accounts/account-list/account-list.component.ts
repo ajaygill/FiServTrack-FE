@@ -10,7 +10,7 @@ export class AccountListComponent implements OnInit {
   search = '';
   sortBy = 'name';
   statusFilter = 'all';
-  pageSize = 7;
+  pageSize = 10;
   currentPage = 1;
 
   constructor(private api: ApiService, private router: Router) {}
@@ -58,6 +58,10 @@ export class AccountListComponent implements OnInit {
 
   get rangeEnd() {
     return Math.min(this.currentPage * this.pageSize, this.filteredAccounts.length);
+  }
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   onSearchChange() { this.currentPage = 1; }

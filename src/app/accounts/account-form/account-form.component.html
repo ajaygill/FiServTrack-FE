@@ -31,11 +31,25 @@
       </div>
       <div class="form-field" [class.field-invalid]="fieldErrors['accountTypeId']">
         <label>Account Type <span class="required">*</span></label>
-        <select [(ngModel)]="form.accountTypeId" (ngModelChange)="clearFieldError('accountTypeId')">
+        <select [(ngModel)]="form.accountTypeId" name="accountTypeId" (ngModelChange)="clearFieldError('accountTypeId')">
           <option [ngValue]="null" disabled>Select Account Type</option>
           <option *ngFor="let x of accountTypes" [ngValue]="x.id">{{ x.description }}</option>
         </select>
         <p *ngIf="fieldErrors['accountTypeId']" class="field-error">{{ fieldErrors['accountTypeId'] }}</p>
+      </div>
+      <div class="form-field">
+        <label>Parent Account</label>
+        <select [(ngModel)]="form.parentAccountId" name="parentAccountId">
+          <option [ngValue]="null">Select Parent Account</option>
+          <option *ngFor="let x of selectableAccounts" [ngValue]="x.id">{{ x.name }}</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Associate Account</label>
+        <select [(ngModel)]="form.associateAccountId" name="associateAccountId">
+          <option [ngValue]="null">Select Associate Account</option>
+          <option *ngFor="let x of selectableAccounts" [ngValue]="x.id">{{ x.name }}</option>
+        </select>
       </div>
       <div class="form-field">
         <label>Currency</label>

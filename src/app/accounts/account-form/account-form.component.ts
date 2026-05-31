@@ -13,6 +13,8 @@ export class AccountFormComponent implements OnInit {
   accountGroups: any[] = [];
   frequencies: any[] = [];
   loanTypes: any[] = [];
+  accounts: Account[] = [];
+  selectableAccounts: Account[] = [];
   loanRepaymentTypes = [
     { value: LoanRepaymentType.Installment, label: 'Installment (Reducing Principal)' },
     { value: LoanRepaymentType.InterestOnly, label: 'Interest Only (Principal Unchanged)' }
@@ -28,6 +30,10 @@ export class AccountFormComponent implements OnInit {
     ['currencies', 'account-types', 'account-groups', 'frequencies', 'loan-types'].forEach(x =>
       this.api.master(x).subscribe((r: any) => { (this as any)[x.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = r; })
     );
+    this.api.getAccounts().subscribe(r => {
+      this.accounts = r;
+      this.refreshSelectableAccounts();
+    });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
@@ -38,8 +44,13 @@ export class AccountFormComponent implements OnInit {
           this.form.loanRepaymentType = Number(this.form.loanRepaymentType) as LoanRepaymentType;
         }
         if (!this.form.isLoan) this.clearLoanFields();
+        this.refreshSelectableAccounts();
       });
     }
+  }
+
+  refreshSelectableAccounts() {
+    this.selectableAccounts = this.accounts.filter(a => a.id !== this.form.id);
   }
 
   empty(): Account {
@@ -54,6 +65,8 @@ export class AccountFormComponent implements OnInit {
       loanTypeId: null,
       loanRepaymentType: null,
       openingBalance: 0,
+      parentAccountId: null,
+      associateAccountId: null,
       isActive: true,
       planBudget: false,
       setAlerts: false

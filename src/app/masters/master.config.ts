@@ -46,7 +46,7 @@ export const ACCOUNT_NATURE_OPTIONS: MasterFieldOption[] = [
   { value: AccountNature.Expense, label: 'Expense' }
 ];
 
-export const ACCOUNT_NATURE_LABELS: Record<number, string> = {
+export const ACCOUNT_NATURE_LABELS: Record<string, string> = {
   [AccountNature.Asset]: 'Asset',
   [AccountNature.Liability]: 'Liability',
   [AccountNature.Income]: 'Income',
