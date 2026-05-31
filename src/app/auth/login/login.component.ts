@@ -5,8 +5,8 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({ standalone: true, imports: [CommonModule, FormsModule], templateUrl: './login.component.html', styleUrl: './login.component.scss' })
 export class LoginComponent {
-  userName = 'admin';
-  password = 'Admin@123';
+  userName = '';
+  password = '';
   error = '';
   loading = false;
 
@@ -24,7 +24,7 @@ export class LoginComponent {
     } catch (e: any) {
       const msg = e?.error?.error || e?.message || '';
       if (msg.includes('JSON.parse') || e?.status === 0) {
-        this.error = 'Cannot reach the API. Start the .NET app (https://localhost:62562) and accept its SSL certificate in the browser, then try again.';
+        this.error = 'Cannot reach the API. Start the BE app and accept its SSL certificate in the browser, then try again.';
       } else {
         this.error = msg || 'Login failed. Please check your credentials.';
       }
