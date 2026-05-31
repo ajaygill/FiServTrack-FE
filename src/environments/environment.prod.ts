@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.fiservtrack.com'
+  apiBaseUrl: 'https://api.fiservtrack.com/api'
 };
